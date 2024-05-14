@@ -1,0 +1,34 @@
+{
+  "partners": [
+    {
+      "id": "1",
+      "name": "Mr. Brandon Mitchell",
+      "position": "CEO",
+      "email": "new_email@starbucks.com"
+    },
+    {
+      "id": "2",
+      "name": "Daniel Cerda",
+      "position": "Manager",
+      "email": "dcerda@starbucks.com"
+    },
+    {
+      "id": "3",
+      "name": "Starbucks User",
+      "position": "Barista",
+      "email": "test@user.com"
+    },
+    {
+      "id": "4",
+      "name": "Starbucks User 2",
+      "position": "Barista",
+      "email": "test@user.com"
+    },
+    {
+      "id": "5",
+      "name": "Starbucks User 3",
+      "position": "CEO",
+      "email": "test@user.com"
+    }
+  ]
+}

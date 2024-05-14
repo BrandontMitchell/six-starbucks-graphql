@@ -1,0 +1,73 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.0",
+        import: ["@key"])
+        
+type Query {
+  products: [Product!]!
+  product(id: ID!): Product!
+}
+
+type Mutation {
+  createProduct(product: ProductInput!): CreateProductResponse
+  updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): UpdateProductResponse
+}
+type Partner @key(fields: "id") {
+  id: ID!
+  favoriteProduct: Product
+}
+
+
+type Product {
+  id: ID!
+  name: String!
+  sku: Int!
+  image: String
+  price: Float!
+  stock: Int!
+  category: ProductCategory!
+  availability: Boolean!
+}
+
+enum ProductCategory {
+  Beverage
+  Food
+  Merch
+}
+
+input ProductInput {
+  name: String!
+  sku: Int!
+  image: String
+  price: Float!
+  stock: Int!
+  category: ProductCategory!
+}
+
+input UpdateProductInput {
+  name: String
+  sku: Int
+  image: String
+  price: Float
+  stock: Int
+  category: ProductCategory
+}
+
+interface MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+}
+
+type CreateProductResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  product: Product
+}
+
+type UpdateProductResponse implements MutationResponse {
+  code: Int!
+  success: Boolean!
+  message: String!
+  product: Product
+}

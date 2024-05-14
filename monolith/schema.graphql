@@ -1,0 +1,138 @@
+type Query {
+  products: [Product!]!
+  product(id: ID!): Product!
+  partners: [Partner!]!
+  partner(id: ID!): Partner!
+}
+
+type Mutation {
+  createProduct(product: ProductInput!): CreateProductResponse
+  updateProduct(productId: ID!, updateProductInput: UpdateProductInput!): UpdateProductResponse
+  
+  createPartner(partner: PartnerInput!): CreatePartnerResponse
+  updatePartner(partnerId: ID!, updatePartnerInput: UpdatePartnerInput!): UpdatePartnerResponse
+}
+
+"A Starbucks employee, both retail and non-retail"
+type Partner {
+  id: ID!
+  name: String!
+  position: EmployeePosition!
+  email: String!
+  favoriteProduct: Product!
+}
+
+type Product {
+  id: ID!
+  name: String!
+  sku: Int!
+  image: String
+  price: Float!
+  stock: Int!
+  category: ProductCategory!
+  availability: Boolean!
+}
+
+enum EmployeePosition {
+  Barista
+  Manager
+  Engineer
+  CEO
+}
+
+enum ProductCategory {
+  Beverage
+  Food
+  Merch
+}
+
+input RecommendedProductsInput {
+  name: String!
+  sku: Int!
+  image: String
+  price: Float!
+  category: ProductCategory!
+}
+
+input ProductInput {
+  name: String!
+  sku: Int!
+  image: String
+  price: Float!
+  stock: Int!
+  category: ProductCategory!
+}
+
+input UpdateProductInput {
+  name: String
+  sku: Int
+  image: String
+  price: Float
+  stock: Int
+  category: ProductCategory
+}
+
+input PartnerInput {
+  name: String!
+  position: EmployeePosition!
+  email: String!
+}
+
+input UpdatePartnerInput {
+  name: String
+  position: EmployeePosition
+  email: String
+}
+
+interface MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+}
+
+type CreateProductResponse implements MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+  "The newly created product"
+  product: Product
+}
+
+type UpdateProductResponse implements MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+  "The newly updated product"
+  product: Product
+}
+
+type CreatePartnerResponse implements MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+  "The newly created product"
+  partner: Partner
+}
+
+type UpdatePartnerResponse implements MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+  "The newly updated partner"
+  partner: Partner
+}

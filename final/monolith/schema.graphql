@@ -1,0 +1,71 @@
+extend schema
+  @link(url: "https://specs.apollo.dev/federation/v2.5",
+        import: ["@key"])
+        
+type Query {
+  partners: [Partner!]!
+  partner(id: ID!): Partner!
+}
+
+type Mutation {
+  createPartner(partner: PartnerInput!): CreatePartnerResponse
+  updatePartner(partnerId: ID!, updatePartnerInput: UpdatePartnerInput!): UpdatePartnerResponse
+}
+
+"A Starbucks employee, both retail and non-retail"
+type Partner @key(fields: "id") {
+  id: ID!
+  name: String!
+  position: EmployeePosition!
+  email: String!
+}
+
+enum EmployeePosition {
+  Barista
+  Manager
+  Engineer
+  CEO
+}
+
+input PartnerInput {
+  name: String!
+  position: EmployeePosition!
+  email: String!
+}
+
+input UpdatePartnerInput {
+  name: String
+  position: EmployeePosition
+  email: String
+}
+
+interface MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+}
+
+type CreatePartnerResponse implements MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+  "The newly created product"
+  partner: Partner
+}
+
+type UpdatePartnerResponse implements MutationResponse {
+  "Similar to HTTP status code, represents the status of the mutation"
+  code: Int!
+  "Indicates whether the mutation was successful"
+  success: Boolean!
+  "Human-readable message for the UI"
+  message: String!
+  "The newly updated partner"
+  partner: Partner
+}

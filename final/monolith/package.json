@@ -1,0 +1,23 @@
+{
+  "name": "monolith",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "launch": "node utils/launch.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@apollo/datasource-rest": "^6.2.2",
+    "@apollo/server": "^4.10.4",
+    "@apollo/subgraph": "^2.7.6",
+    "axios": "^1.6.8",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
+    "nodemon": "^3.1.0",
+    "uuid": "^9.0.1"
+  }
+}
