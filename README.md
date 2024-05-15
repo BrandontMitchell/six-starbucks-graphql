@@ -564,33 +564,28 @@ type Partner @key(fields: "id") {
 
 Notice how, aside from the id, the fields are distinct and unique to the subgraph? Now we should figure out if we need to do anything special for the resolvers!
 
-Important note: **Subgraphs that contribute fields to an entity use a special resolver called a reference resolver to resolve entities. This function enables the router to directly access entity fields that each subgraph contributes.**
+Important note: Subgraphs that contribute fields to an entity use a special resolver called a reference resolver to resolve entities. This function enables the router to directly access entity fields that each subgraph contributes.
 
-Reference resolvers a bit tricky. Let's think about it as if you're working on a big school project with several classmates, and each of you is responsible for a different part of the project. You've divided up the topics, and each person gathers specific information about their topic.
+Reference resolvers can be a bit tricky. Let's think about it as if you're part of a detective team working on a complex case. Each detective is responsible for different aspects of the investigation, gathering specific pieces of evidence related to the case.
 
-Suppose you’re working on a project about a technology company, and you're in charge of collecting info on their partnerships. Each partner the company works with has an ID number, but that's all you know from your segment. You need more details like what these partners do, how they work with the company, etc.
+Suppose you're investigating a technology company, and you're in charge of gathering information about its partnerships. Each partner the company works with has an ID number, but that's all you have from your segment. You need more details, like what these partners do, how they collaborate with the company, etc.
 
-Here’s where the __resolveReference comes into play, similar to asking a specific classmate for the detailed info they have:
+Here’s where the __resolveReference function comes into play, similar to consulting a specific detective for the detailed info they have:
 
-    Partial Information: You have the ID of a partner but not the full details.
+    Initial Clue: You have the ID of a partner but not the full details.
+    Consulting the Expert: You go to the detective who specializes in detailed profiles of each partner. You show them the ID and say, "Hey, can you give me more info on this partner?"
+    Gathering Full Details: The detective looks up their records, finds the full details of the partner, and shares them with you.
+    Solving the Case: Now you have the complete information, and you can incorporate it into your investigation, making your part of the case complete and connected to the whole investigation.
 
-    Asking for Details: You go to your classmate who is focused on detailed profiles of each partner. You show them the ID, and say, "Hey, can you give me more info on this partner?"
+Similarly, in a computer system that uses Apollo Federation for managing its data, the __resolveReference function acts like consulting the detective who can provide the full details based on an initial clue (like the partner ID). This function ensures that even though the data is managed in parts, anyone who needs the complete data can get it efficiently and accurately from the right source.
 
-    Getting Full Information: Your classmate looks up their research, finds the full details of the partner, and shares them with you.
+Every reference resolver has the name __resolveReference. It's a function with three arguments:
 
-    Completing Your Part: Now you have the complete information, and you can incorporate it into the project, making your part complete and connected to the whole project.
+    reference: The entity representation object that's passed in by the router, which includes the entity's __typename and @key fields. This tells the subgraph which instance of an entity is being requested.
+    context: The object shared across all resolvers that are executing for a particular operation, as in normal resolvers. (Note that by convention, we refer to this __resolveReference argument as context, rather than contextValue as in other resolvers!)
+    info: Information about the operation's execution state, including the field name and the path to the field from the root, as in normal resolvers.
 
-Similarly, in a computer system that uses Apollo Federation for managing its data, the __resolveReference function acts like going to the classmate who can provide the full details based on a little bit of initial information (like the partner ID). This function ensures that even though the data is managed in parts, anyone who needs the complete data can get it efficiently and accurately from the right source.
-
-Every reference resolver has the name `__resolveReference`. It's a function with three arguments:
-
-- **reference**: The entity representation object that's passed in by the router, which includes the entity's `__typename` and `@key` fields. This tells the subgraph which instance of an entity is being requested. 
-
-- **context**: The object shared across all resolvers that are executing for a particular operation, as in normal resolvers. (Note that by convention, we refer to this `__resolveReference` argument as context, rather than contextValue as in other resolvers!)
-
-- **info**: information about the operation's execution state, including the field name and the path to the field from the root, as in normal resolvers.
-
-That being said, we need to add a reference resolver for the Partners's resolver:
+That being said, we need to add a reference resolver for the Partners' resolver.
 
 Below is the subgraph-products resolver:
 ```
